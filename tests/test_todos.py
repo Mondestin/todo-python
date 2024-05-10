@@ -28,6 +28,15 @@ def test_get_todo_by_id(create_sample_todo):
     assert response.status_code == 200
     assert response.json()["id"] == todo_id
 
+
+# Test case to get a Todo by ID that doesn't exist
+def test_get_nonexistent_todo():
+    nonexistent_id = str(uuid.uuid4()) 
+    response = client.get(f"/todos/{nonexistent_id}")
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Todo not found"
+
+
 # Test case to modify an existing Todo's name
 def test_modify_todo_name(create_sample_todo):
     todo_id = create_sample_todo["id"]
